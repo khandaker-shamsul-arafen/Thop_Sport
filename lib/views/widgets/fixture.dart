@@ -27,19 +27,26 @@ class _FixtureWidgetState extends State<FixtureWidget> {
               Padding(
                 padding: EdgeInsets.only(
                     top: AppSizes.newSize(2),
-                    bottom: AppSizes.newSize(1),
+                    bottom: AppSizes.newSize(0),
                     left: AppSizes.newSize(2),
                     right: AppSizes.newSize(2)),
                 child: Row(
                   children: [
                     Expanded(
                       flex: 3,
-                      child: Text(
-                        'Pakistan tour of Sri Lanka, 2023 Test',
-                        style: TextStyle(
-                            fontWeight: FontWeight.bold,
-                            fontSize: AppSizes.size14,
-                            overflow: TextOverflow.ellipsis),
+                      child: Container(
+                        child: Padding(
+                          padding: EdgeInsets.all(AppSizes.newSize(1)),
+                          child: Center(
+                            child: Text(
+                              'Pakistan tour of Sri Lanka, 2023 Test',
+                              style: TextStyle(
+                                  fontWeight: FontWeight.bold,
+                                  fontSize: AppSizes.size14,
+                                  overflow: TextOverflow.ellipsis),
+                            ),
+                          ),
+                        ),
                       ),
                     ),
                     Expanded(
@@ -52,7 +59,7 @@ class _FixtureWidgetState extends State<FixtureWidget> {
                           padding: EdgeInsets.all(AppSizes.newSize(1)),
                           child: Center(
                             child: Text(
-                              '1st Test',
+                              '1st Testscvsdmsfsfmswfkm',
                               style: TextStyle(
                                   color: Colors.white,
                                   fontSize: AppSizes.size16,
@@ -172,9 +179,6 @@ class _FixtureWidgetState extends State<FixtureWidget> {
               )
             ]),
           ),
-          SizedBox(
-            height: AppSizes.newSize(2),
-          )
         ],
       ),
     );
