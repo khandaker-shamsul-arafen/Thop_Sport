@@ -33,7 +33,7 @@ class _FixtureWidgetState extends State<FixtureWidget> {
                 child: Row(
                   children: [
                     Expanded(
-                      flex: 2,
+                      flex: 3,
                       child: Text(
                         'Pakistan tour of Sri Lanka, 2023 Test',
                         style: TextStyle(
@@ -42,20 +42,23 @@ class _FixtureWidgetState extends State<FixtureWidget> {
                             overflow: TextOverflow.ellipsis),
                       ),
                     ),
-                    const Spacer(),
                     Expanded(
+                      flex: 2,
                       child: Container(
                         decoration: BoxDecoration(
                             color: Color(0xffB6585A),
                             borderRadius: BorderRadius.circular(8)),
                         child: Padding(
                           padding: EdgeInsets.all(AppSizes.newSize(1)),
-                          child: Text(
-                            '1st Test',
-                            style: TextStyle(
-                                color: Colors.white,
-                                fontSize: AppSizes.size16,
-                                fontWeight: FontWeight.bold),
+                          child: Center(
+                            child: Text(
+                              '1st Test',
+                              style: TextStyle(
+                                  color: Colors.white,
+                                  fontSize: AppSizes.size16,
+                                  fontWeight: FontWeight.bold,
+                                  overflow: TextOverflow.ellipsis),
+                            ),
                           ),
                         ),
                       ),
