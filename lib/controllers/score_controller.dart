@@ -2,6 +2,7 @@ import 'dart:convert';
 
 import 'package:get/get_rx/src/rx_types/rx_types.dart';
 import 'package:get/get_state_manager/src/simple/get_controllers.dart';
+import 'package:get_storage/get_storage.dart';
 
 import '../models/match_details_response.dart';
 import '../models/team_response.dart';
@@ -12,6 +13,12 @@ class ScoreController extends GetxController {
   RxList<Live> teamResponseList = <Live>[].obs;
   Rx<TeamResponse> teamResponseModel = TeamResponse().obs;
   RxList<Match> matchResponseList = <Match>[].obs;
+  RxList<Keystats> kStateResponseList = <Keystats>[].obs;
+  RxList<Batter> batterDetailsResponseList = <Batter>[].obs;
+  RxList<Bowler> bowlerDetailsResponseList = <Bowler>[].obs;
+  RxList<Commentry> comentryResponseList = <Commentry>[].obs;
+  List lastEightBall = [0, 0, 0, 0, 0, 0, 0, 0];
+
   Rx<MatchDetailsResponse> matchResponseModel = MatchDetailsResponse().obs;
 
   RxBool loading = true.obs;
@@ -35,7 +42,7 @@ class ScoreController extends GetxController {
           ?.map((e) =>
               teamResponseList.contains(e) ? null : teamResponseList.add(e))
           .toList();
-      print(teamResponseList[0].title);
+      //  print(teamResponseModel.value.toJson());
     } on Exception catch (e) {
       dd(e);
     } finally {
@@ -43,9 +50,15 @@ class ScoreController extends GetxController {
     }
   }
 
-  matchDetails() async {
+  matchDetails(String link) async {
     matchLoading.value = true;
     matchResponseList.clear();
+    kStateResponseList.clear();
+    batterDetailsResponseList.clear();
+    comentryResponseList.clear();
+    bowlerDetailsResponseList.clear();
+    lastEightBall.clear();
+    lastEightBall = [0, 0, 0, 0, 0, 0, 0, 0];
 
     try {
       var matchResponse = await ApiService.post(
@@ -54,20 +67,46 @@ class ScoreController extends GetxController {
           body: {
             'api_key':
                 '7f581f7766bb683c1e785253fc75395a4245fe94f003f5318665b73c8d021424',
-            'url':
-                'https://www.cricbuzz.com/live-cricket-scores/73285/waf-vs-tsk-5th-match-major-league-cricket-2023'
+            'url': link
           });
       matchResponseModel.value =
           MatchDetailsResponse.fromJson(jsonDecode(matchResponse.body));
-      // matchResponseModel.value.match
-      //     ?.map((e) =>
-      // teamResponseList.contains(e) ? null : teamResponseList.add(e))
-      //     .toList();
-      print(matchResponseModel.toJson());
+      matchResponseModel.value.batter
+          ?.map((e) => batterDetailsResponseList.add(e))
+          .toList();
+      matchResponseModel.value.bowler
+          ?.map((e) => bowlerDetailsResponseList.add(e))
+          .toList();
+      matchResponseModel.value.keystats
+          ?.map((e) => kStateResponseList.add(e))
+          .toList();
+      matchResponseModel.value.commentry
+          ?.map((e) => comentryResponseList.add(e))
+          .toList();
+      var recentBallSplit =
+          (matchResponseModel.value.recent.toString()).split('|');
+      var splitIndex0 = (recentBallSplit[1].split(" "));
+      var splitIndex1 = recentBallSplit[2].split(" ");
+
+      if (splitIndex0.isNotEmpty) {
+        for (int index = 1; index < splitIndex0.length - 1; index++) {
+          lastEightBall[index - 1] = splitIndex0[index];
+        }
+      }
+
+      if (splitIndex1.isNotEmpty) {
+        for (int index = 1;
+            index <= lastEightBall.length - (splitIndex0.length - 2);
+            index++) {
+          lastEightBall[splitIndex0.length - 1] = splitIndex1[index];
+        }
+      }
+
+      print(lastEightBall);
     } on Exception catch (e) {
       dd(e);
     } finally {
-      loading.value = false;
+      matchLoading.value = false;
     }
   }
 }

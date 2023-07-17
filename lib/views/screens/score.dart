@@ -4,6 +4,7 @@ import 'package:get/get_core/src/get_main.dart';
 
 import '../../controllers/score_controller.dart';
 import '../widgets/fixture.dart';
+import 'match_details.dart';
 
 class ScoreScreen extends StatefulWidget {
   const ScoreScreen({super.key});
@@ -18,20 +19,32 @@ class _ScoreScreenState extends State<ScoreScreen> {
   void initState() {
     super.initState();
     scoreController.teamScheudle();
-    // scoreController.matchDetails();
   }
 
   @override
   Widget build(BuildContext context) {
     return Obx(() {
       if (scoreController.loading.value) {
-        return Center(child: const CircularProgressIndicator());
+        return const Center(child: CircularProgressIndicator());
       } else {
         return ListView(
           children: [
-            ...scoreController.teamResponseList.map((element) => FixtureWidget(
-                  element: element,
-                )),
+            ...scoreController.teamResponseList
+                .map((element) => GestureDetector(
+                      onTap: () {
+                        if (element.status.toString().toLowerCase() == 'live' ||
+                            element.status.toString().toLowerCase() ==
+                                'stumps') {
+                          scoreController.matchDetails(element.link.toString());
+                          Get.to(() => MatchDetails());
+                        } else {
+                          null;
+                        }
+                      },
+                      child: FixtureWidget(
+                        element: element,
+                      ),
+                    )),
           ],
         );
       }

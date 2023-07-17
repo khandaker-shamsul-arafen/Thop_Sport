@@ -6,4 +6,5 @@ class AppAssets {
   static const String drawer = 'assets/bottom_nav/menu.png';
   static const String like = 'assets/bottom_nav/like.png';
   static const String background = 'assets/images/sp.png';
+  static const String live = 'assets/images/live.gif';
 }

@@ -51,7 +51,17 @@ class ParentScreenState extends State<ParentScreen> {
         appBar: AppBar(
           elevation: 0,
           backgroundColor: Colors.transparent,
-          title: Text("jkasd"),
+          title: Container(
+              decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(8),
+                  border: Border.all(color: Colors.white)),
+              child: Padding(
+                padding: EdgeInsets.all(AppSizes.newSize(.8)),
+                child: const Text(
+                  "THOP SPORTS",
+                  style: TextStyle(fontWeight: FontWeight.bold),
+                ),
+              )),
           centerTitle: true,
           leading: InkWell(
             onTap: () async {
@@ -103,7 +113,7 @@ class ParentScreenState extends State<ParentScreen> {
           ],
         ),
         bottomNavigationBar: BottomNavigationBar(
-          backgroundColor: Colors.white.withOpacity(0.3),
+          backgroundColor: Colors.white.withOpacity(0.1),
           selectedItemColor: AppColors.navbarSelectedColor,
           showSelectedLabels: true,
           showUnselectedLabels: true,
@@ -112,10 +122,10 @@ class ParentScreenState extends State<ParentScreen> {
               color: Colors.redAccent,
               fontWeight: FontWeight.w600),
           unselectedLabelStyle: TextStyle(
-            fontSize: AppSizes.size12,
-            color: Colors.white.withOpacity(.8),
-          ),
-          unselectedItemColor: Colors.white.withOpacity(.7),
+              fontSize: AppSizes.size12,
+              color: Colors.white,
+              fontWeight: FontWeight.w600),
+          unselectedItemColor: Colors.white,
           type: BottomNavigationBarType.fixed,
           items: [
             bottomNavBarItem(AppAssets.home, 'HOME'),
