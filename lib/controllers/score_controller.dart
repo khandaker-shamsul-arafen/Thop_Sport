@@ -35,7 +35,7 @@ class ScoreController extends GetxController {
           ?.map((e) =>
               teamResponseList.contains(e) ? null : teamResponseList.add(e))
           .toList();
-      print(teamResponseModel.toJson());
+      print(teamResponseList[0].title);
     } on Exception catch (e) {
       dd(e);
     } finally {

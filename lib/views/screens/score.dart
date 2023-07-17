@@ -17,19 +17,24 @@ class _ScoreScreenState extends State<ScoreScreen> {
 
   void initState() {
     super.initState();
-    // scoreController.teamScheudle();
-    scoreController.matchDetails();
+    scoreController.teamScheudle();
+    // scoreController.matchDetails();
   }
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      child: Column(
-        children: [
-          FixtureWidget(),
-          FixtureWidget(),
-        ],
-      ),
-    );
+    return Obx(() {
+      if (scoreController.loading.value) {
+        return Center(child: const CircularProgressIndicator());
+      } else {
+        return ListView(
+          children: [
+            ...scoreController.teamResponseList.map((element) => FixtureWidget(
+                  element: element,
+                )),
+          ],
+        );
+      }
+    });
   }
 }

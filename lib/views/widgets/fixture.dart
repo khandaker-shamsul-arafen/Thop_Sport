@@ -1,19 +1,35 @@
 import 'package:firsttest/consts/consts.dart';
+import 'package:firsttest/models/team_response.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 import '../../consts/app_sizes.dart';
 
 class FixtureWidget extends StatefulWidget {
-  const FixtureWidget({super.key});
+  final Live element;
+
+  const FixtureWidget({super.key, required this.element,});
 
   @override
   State<FixtureWidget> createState() => _FixtureWidgetState();
 }
 
 class _FixtureWidgetState extends State<FixtureWidget> {
+
   @override
   Widget build(BuildContext context) {
+    var title = (widget.element.title.toString()).split('.');
+    String title1 = title[0];
+    String title2 = title[0];
+    String status = widget.element.status.toString();
+    String team1Image = widget.element.t1Image.toString();
+    String team2Image = widget.element.t2Image.toString();
+    String team1Name = widget.element.t1Name.toString();
+    String team2Name = widget.element.t2Name.toString();
+    String team1Score = widget.element.t1Score.toString();
+    String team2Score = widget.element.t2Score.toString();
+    String message = widget.element.message.toString();
+
     return Padding(
       padding: EdgeInsets.all(AppSizes.newSize(1)),
       child: Column(
@@ -39,7 +55,7 @@ class _FixtureWidgetState extends State<FixtureWidget> {
                           padding: EdgeInsets.all(AppSizes.newSize(1)),
                           child: Center(
                             child: Text(
-                              'Pakistan tour of Sri Lanka, 2023 Test',
+                              title2,
                               style: TextStyle(
                                   fontWeight: FontWeight.bold,
                                   fontSize: AppSizes.size14,
@@ -59,7 +75,7 @@ class _FixtureWidgetState extends State<FixtureWidget> {
                           padding: EdgeInsets.all(AppSizes.newSize(1)),
                           child: Center(
                             child: Text(
-                              '1st Testscvsdmsfsfmswfkm',
+                              title1,
                               style: TextStyle(
                                   color: Colors.white,
                                   fontSize: AppSizes.size16,
@@ -91,25 +107,29 @@ class _FixtureWidgetState extends State<FixtureWidget> {
                                 Container(
                                   height: AppSizes.newSize(3),
                                   width: AppSizes.newSize(3),
-                                  decoration: const BoxDecoration(
+                                  decoration: BoxDecoration(
                                       color: Colors.blue,
                                       shape: BoxShape.circle,
                                       image: DecorationImage(
-                                          image: AssetImage(AppAssets.home))),
+                                          image: NetworkImage(team1Image))),
                                 ),
                                 SizedBox(
                                   width: AppSizes.newSize(1),
                                 ),
-                                Container(
-                                    height: AppSizes.newSize(3),
-                                    width: AppSizes.newSize(3),
-                                    child: Image.asset(
-                                      AppAssets.player,
-                                    )),
+                                // Container(
+                                //     height: AppSizes.newSize(3),
+                                //     width: AppSizes.newSize(3),
+                                //     child: Image.network(
+                                //       team2Image,
+                                //     )),
                                 SizedBox(
                                   width: AppSizes.newSize(1),
                                 ),
-                                Text("data"),
+                                Text(team1Name ?? ""),
+                                SizedBox(
+                                  width: AppSizes.newSize(1),
+                                ),
+                                Text(team1Score),
                               ],
                             ),
                             SizedBox(
@@ -126,23 +146,23 @@ class _FixtureWidgetState extends State<FixtureWidget> {
                                       color: Colors.amber,
                                       shape: BoxShape.circle,
                                       image: DecorationImage(
-                                          image: AssetImage(AppAssets.home))),
+                                          image: NetworkImage(team2Image))),
                                 ),
                                 SizedBox(
                                   width: AppSizes.newSize(1),
                                 ),
-                                Container(
-                                    height: AppSizes.newSize(3),
-                                    width: AppSizes.newSize(3),
-                                    child: Image.asset(AppAssets.player)),
+                                // Container(
+                                //     height: AppSizes.newSize(3),
+                                //     width: AppSizes.newSize(3),
+                                //     child: Image.asset(AppAssets.player)),
                                 SizedBox(
                                   width: AppSizes.newSize(1),
                                 ),
-                                Text("data"),
+                                Text(team2Name),
                                 SizedBox(
                                   width: AppSizes.newSize(1),
                                 ),
-                                Text('136-4'),
+                                Text(team2Score),
                               ],
                             ),
                           ]),
@@ -156,12 +176,12 @@ class _FixtureWidgetState extends State<FixtureWidget> {
                       width: AppSizes.newSize(15),
                       child: Center(
                           child: Text(
-                        'LIVE',
-                        style: TextStyle(
-                          fontWeight: FontWeight.bold,
-                          color: Colors.red,
-                        ),
-                      )),
+                            'LIVE',
+                            style: TextStyle(
+                              fontWeight: FontWeight.bold,
+                              color: Colors.red,
+                            ),
+                          )),
                     )
                   ],
                 ),
