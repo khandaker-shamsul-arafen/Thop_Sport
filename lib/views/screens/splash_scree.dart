@@ -32,7 +32,7 @@ class _SplashScreenState extends State<SplashScreen> {
     return Container(
       decoration: const BoxDecoration(
         image: DecorationImage(
-          image: AssetImage('assets/splash.jpeg'),
+          image: AssetImage('assets/images/splash.jpeg'),
         ),
       ),
       child: Scaffold(
