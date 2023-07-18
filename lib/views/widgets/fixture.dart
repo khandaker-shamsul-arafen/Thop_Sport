@@ -38,7 +38,7 @@ class _FixtureWidgetState extends State<FixtureWidget> {
       child: Column(
         children: [
           Container(
-            height: AppSizes.newSize(21),
+            //height: AppSizes.newSize(21),
             decoration: BoxDecoration(
                 color: Colors.white.withOpacity(0.3),
                 borderRadius: BorderRadius.circular(10)),
@@ -100,101 +100,94 @@ class _FixtureWidgetState extends State<FixtureWidget> {
                     right: AppSizes.newSize(2)),
                 child: Row(
                   children: [
-                    Column(
-                        mainAxisAlignment: MainAxisAlignment.start,
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Row(
-                            children: [
-                              Container(
-                                height: AppSizes.newSize(3),
-                                width: AppSizes.newSize(3),
-                                decoration: BoxDecoration(
-                                    // color: Colors.blue,
-                                    shape: BoxShape.circle,
-                                    image: DecorationImage(
-                                        image: NetworkImage(team1Image))),
-                              ),
-                              SizedBox(
-                                width: AppSizes.newSize(1.5),
-                              ),
-                              Text(
-                                team1Name ?? "",
-                                style: TextStyle(
-                                    fontWeight: FontWeight.w500,
-                                    fontSize: AppSizes.size16),
-                              ),
-                              SizedBox(
-                                width: AppSizes.newSize(1.5),
-                              ),
-                              Text(
-                                team1Score ?? '',
-                                style: TextStyle(
-                                    fontWeight: FontWeight.w500,
-                                    fontSize: AppSizes.size16),
-                              ),
-                            ],
-                          ),
-                          SizedBox(
-                            height: AppSizes.newSize(1),
-                          ),
-                          Row(
-                            mainAxisAlignment: MainAxisAlignment.start,
-                            children: [
-                              Container(
-                                height: AppSizes.newSize(3),
-                                width: AppSizes.newSize(3),
-                                decoration: BoxDecoration(
-                                    //color: Colors.amber,
-                                    shape: BoxShape.circle,
-                                    image: DecorationImage(
-                                        image: NetworkImage(team2Image))),
-                              ),
-
-                              // Container(
-                              //     height: AppSizes.newSize(3),
-                              //     width: AppSizes.newSize(3),
-                              //     child: Image.asset(AppAssets.player)),
-                              SizedBox(
-                                width: AppSizes.newSize(1.2),
-                              ),
-                              Text(
-                                team2Name ?? '',
-                                style: TextStyle(
-                                    fontWeight: FontWeight.w500,
-                                    fontSize: AppSizes.size16),
-                              ),
-                              SizedBox(
-                                width: AppSizes.newSize(1),
-                              ),
-                              Text(
-                                team2Score ?? '',
-                                style: TextStyle(
-                                    fontWeight: FontWeight.w500,
-                                    fontSize: AppSizes.size16),
-                              ),
-                            ],
-                          ),
-                        ]),
-                    Spacer(),
-                    Container(
-                      decoration: BoxDecoration(
-                          color: Colors.white,
-                          borderRadius: BorderRadius.circular(8)),
-                      height: AppSizes.newSize(5),
-                      width: AppSizes.newSize(15),
-                      child: Center(
-                          child: Text(
-                        status,
-                        style: TextStyle(
-                            fontWeight: FontWeight.bold,
-                            color: (status.toLowerCase() == 'complete')
-                                ? Colors.blue
-                                : (status.toLowerCase() == 'live')
-                                    ? Colors.red
-                                    : Colors.green,
-                            fontSize: AppSizes.size16),
-                      )),
+                    Expanded(
+                      flex: 3,
+                      child: Column(
+                          mainAxisAlignment: MainAxisAlignment.start,
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Row(
+                              children: [
+                                Container(
+                                  height: AppSizes.newSize(3),
+                                  width: AppSizes.newSize(3),
+                                  decoration: BoxDecoration(
+                                      // color: Colors.blue,
+                                      shape: BoxShape.circle,
+                                      image: DecorationImage(
+                                          image: NetworkImage(team1Image))),
+                                ),
+                                SizedBox(
+                                  width: AppSizes.newSize(1.5),
+                                ),
+                                Text(
+                                  team1Name ?? "",
+                                  style: TextStyle(
+                                      fontWeight: FontWeight.w500,
+                                      fontSize: AppSizes.size16),
+                                ),
+                                Text(
+                                  team1Score ?? '',
+                                  style: TextStyle(
+                                      fontWeight: FontWeight.w500,
+                                      fontSize: AppSizes.size16),
+                                ),
+                              ],
+                            ),
+                            SizedBox(
+                              height: AppSizes.newSize(1),
+                            ),
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.start,
+                              children: [
+                                Container(
+                                  height: AppSizes.newSize(3),
+                                  width: AppSizes.newSize(3),
+                                  decoration: BoxDecoration(
+                                      //color: Colors.amber,
+                                      shape: BoxShape.circle,
+                                      image: DecorationImage(
+                                          image: NetworkImage(team2Image))),
+                                ),
+                                SizedBox(
+                                  width: AppSizes.newSize(1.2),
+                                ),
+                                Text(
+                                  team2Name ?? '',
+                                  style: TextStyle(
+                                      fontWeight: FontWeight.w500,
+                                      fontSize: AppSizes.size16),
+                                ),
+                                Text(
+                                  team2Score ?? '',
+                                  style: TextStyle(
+                                      fontWeight: FontWeight.w500,
+                                      fontSize: AppSizes.size16),
+                                ),
+                              ],
+                            ),
+                          ]),
+                    ),
+                    Expanded(
+                      child: Container(
+                        decoration: BoxDecoration(
+                            color: Colors.white,
+                            borderRadius: BorderRadius.circular(8)),
+                        height: AppSizes.newSize(5),
+                        width: AppSizes.newSize(15),
+                        child: Center(
+                            child: Text(
+                          status,
+                          style: TextStyle(
+                              fontWeight: FontWeight.bold,
+                              color: (status.toLowerCase() == 'complete')
+                                  ? Colors.blue
+                                  : (status.toLowerCase() == 'live')
+                                      ? Colors.red
+                                      : Colors.green,
+                              fontSize: AppSizes.size16),
+                        )),
+                      ),
                     )
                   ],
                 ),

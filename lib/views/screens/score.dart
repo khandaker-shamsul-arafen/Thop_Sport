@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:get/get_core/src/get_main.dart';
@@ -21,6 +23,11 @@ class _ScoreScreenState extends State<ScoreScreen> {
     scoreController.teamScheudle();
   }
 
+  void dispose() {
+    scoreController.interstitialAd?.dispose();
+    super.dispose();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Obx(() {
@@ -36,7 +43,7 @@ class _ScoreScreenState extends State<ScoreScreen> {
                             element.status.toString().toLowerCase() ==
                                 'stumps') {
                           scoreController.matchDetails(element.link.toString());
-                          Get.to(() => MatchDetails());
+                          Get.to(() => MatchDetails(element.link.toString()));
                         } else {
                           null;
                         }

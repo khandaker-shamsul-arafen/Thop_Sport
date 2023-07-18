@@ -1,8 +1,12 @@
 import 'dart:convert';
+import 'dart:io';
 
+import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:get/get_rx/src/rx_types/rx_types.dart';
 import 'package:get/get_state_manager/src/simple/get_controllers.dart';
 import 'package:get_storage/get_storage.dart';
+import 'package:google_mobile_ads/google_mobile_ads.dart';
 
 import '../models/match_details_response.dart';
 import '../models/team_response.dart';
@@ -17,12 +21,64 @@ class ScoreController extends GetxController {
   RxList<Batter> batterDetailsResponseList = <Batter>[].obs;
   RxList<Bowler> bowlerDetailsResponseList = <Bowler>[].obs;
   RxList<Commentry> comentryResponseList = <Commentry>[].obs;
-  List lastEightBall = [0, 0, 0, 0, 0, 0, 0, 0];
+  List lastEightBall = [];
+  List last = [];
+  BannerAd? bannerAd;
+  InterstitialAd? interstitialAd;
 
   Rx<MatchDetailsResponse> matchResponseModel = MatchDetailsResponse().obs;
 
   RxBool loading = true.obs;
   RxBool matchLoading = true.obs;
+  RxBool adLoading = false.obs;
+
+  final adUnitId = Platform.isAndroid
+      ? 'ca-app-pub-3940256099942544/6300978111'
+      : 'ca-app-pub-3940256099942544/2934735716';
+  final adId = Platform.isAndroid
+      ? 'ca-app-pub-3940256099942544/1033173712'
+      : 'ca-app-pub-3940256099942544/4411468910';
+
+  void loadAd() {
+    bannerAd = BannerAd(
+      adUnitId: adUnitId,
+      request: const AdRequest(),
+      size: AdSize.banner,
+      listener: BannerAdListener(
+        // Called when an ad is successfully received.
+        onAdLoaded: (ad) {
+          debugPrint('$ad loaded.');
+
+          adLoading.value = true;
+        },
+        // Called when an ad request failed.
+        onAdFailedToLoad: (ad, err) {
+          debugPrint('BannerAd failed to load: $err');
+          // Dispose the ad here to free resources.
+          ad.dispose();
+        },
+      ),
+    )..load();
+  }
+
+  void loadAdins() {
+    InterstitialAd.load(
+        adUnitId: adId,
+        request: const AdRequest(),
+        adLoadCallback: InterstitialAdLoadCallback(
+          // Called when an ad is successfully received.
+          onAdLoaded: (ad) {
+            debugPrint('$ad loaded.');
+            // Keep a reference to the ad so you can show it later.
+            interstitialAd = ad;
+          },
+
+          // Called when an ad request failed.
+          onAdFailedToLoad: (LoadAdError error) {
+            debugPrint('InterstitialAd failed to load: $error');
+          },
+        ));
+  }
 
   teamScheudle() async {
     loading.value = true;
@@ -58,7 +114,7 @@ class ScoreController extends GetxController {
     comentryResponseList.clear();
     bowlerDetailsResponseList.clear();
     lastEightBall.clear();
-    lastEightBall = [0, 0, 0, 0, 0, 0, 0, 0];
+    lastEightBall = [];
 
     try {
       var matchResponse = await ApiService.post(
@@ -83,24 +139,16 @@ class ScoreController extends GetxController {
       matchResponseModel.value.commentry
           ?.map((e) => comentryResponseList.add(e))
           .toList();
-      var recentBallSplit =
-          (matchResponseModel.value.recent.toString()).split('|');
-      var splitIndex0 = (recentBallSplit[1].split(" "));
-      var splitIndex1 = recentBallSplit[2].split(" ");
 
-      if (splitIndex0.isNotEmpty) {
-        for (int index = 1; index < splitIndex0.length - 1; index++) {
-          lastEightBall[index - 1] = splitIndex0[index];
-        }
+      var recentBallSplit = (matchResponseModel.value.recent.toString())
+          .replaceAll("Recent:... ", "")
+          .split(' | ');
+      dd(recentBallSplit);
+      for (int i = 0; i < recentBallSplit.length; i++) {
+        lastEightBall = [...lastEightBall, ...recentBallSplit[i].split(" ")];
       }
 
-      if (splitIndex1.isNotEmpty) {
-        for (int index = 1;
-            index <= lastEightBall.length - (splitIndex0.length - 2);
-            index++) {
-          lastEightBall[splitIndex0.length - 1] = splitIndex1[index];
-        }
-      }
+      dd(recentBallSplit.length);
 
       print(lastEightBall);
     } on Exception catch (e) {
