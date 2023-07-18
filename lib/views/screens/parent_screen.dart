@@ -1,13 +1,17 @@
+import 'package:firsttest/notification/NotificationServices.dart';
 import 'package:firsttest/views/screens/player.dart';
 import 'package:firsttest/views/screens/point.dart';
 import 'package:firsttest/views/screens/score.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
+import 'package:get_storage/get_storage.dart';
 
+import '../../consts/appLifeCycleRefector.dart';
 import '../../consts/app_assets.dart';
 import '../../consts/app_colors.dart';
 import '../../consts/app_sizes.dart';
+import '../../consts/openAddManager.dart';
 import 'home_page.dart';
 
 class ParentScreen extends StatefulWidget {
@@ -23,6 +27,9 @@ class ParentScreen extends StatefulWidget {
 
 class ParentScreenState extends State<ParentScreen> {
   //AuthController authController = Get.find();
+  NotificationServices notificationServices = NotificationServices();
+
+  late AppLifecycleReactor _appLifecycleReactor;
   int _selectedIndex = 1;
   final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
 
@@ -36,6 +43,16 @@ class ParentScreenState extends State<ParentScreen> {
   void initState() {
     _selectedIndex = widget.page;
     super.initState();
+    notificationServices.requestNotificationPermission();
+    notificationServices.firebaseInit();
+    notificationServices.getDeviceToken().then((value) {
+      print('device token');
+      print(value);
+    });
+    AppOpenAdManager appOpenAdManager = AppOpenAdManager()..loadAd();
+    _appLifecycleReactor =
+        AppLifecycleReactor(appOpenAdManager: appOpenAdManager);
+    _appLifecycleReactor.listenToAppStateChanges();
   }
 
   @override
@@ -85,9 +102,7 @@ class ParentScreenState extends State<ParentScreen> {
           ),
           actions: [
             InkWell(
-              onTap: () async {
-                _scaffoldKey.currentState?.openDrawer();
-              },
+              onTap: () async {},
               child: Padding(
                 padding: const EdgeInsets.all(8.0),
                 child: ImageIcon(
