@@ -44,7 +44,7 @@ class ParentScreenState extends State<ParentScreen> {
     _selectedIndex = widget.page;
     super.initState();
     notificationServices.requestNotificationPermission();
-    notificationServices.firebaseInit();
+    notificationServices.firebaseInit(context);
     notificationServices.getDeviceToken().then((value) {
       print('device token');
       print(value);

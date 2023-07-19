@@ -2,6 +2,7 @@ import 'package:firsttest/consts/consts.dart';
 import 'package:firsttest/models/team_response.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:shimmer/shimmer.dart';
 
 import '../../consts/app_sizes.dart';
 

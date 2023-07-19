@@ -1,5 +1,6 @@
 import 'dart:async';
 
+import 'package:firsttest/views/widgets/shimmer_fixture_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:get/get_core/src/get_main.dart';
@@ -32,7 +33,11 @@ class _ScoreScreenState extends State<ScoreScreen> {
   Widget build(BuildContext context) {
     return Obx(() {
       if (scoreController.loading.value) {
-        return const Center(child: CircularProgressIndicator());
+        return ListView(
+          children: [
+            ...List.generate(8, (index) => FixtureWidgetShimmer()),
+          ],
+        );
       } else {
         return ListView(
           children: [

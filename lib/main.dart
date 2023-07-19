@@ -1,4 +1,5 @@
 import 'package:firebase_core/firebase_core.dart';
+import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:firsttest/views/screens/splash_scree.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -8,8 +9,16 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:google_mobile_ads/google_mobile_ads.dart';
 import '/consts/consts.dart';
 import '/controllers/setting_controller.dart';
-import '/views/screens/splash_screen.dart';
 import 'firebase_options.dart';
+import 'notification/NotificationServices.dart';
+
+@pragma("vm:entry-point")
+Future<void> firebaseMessagingBackgroundHandler(RemoteMessage message) async {
+  print(message.notification!.title.toString());
+  await Firebase.initializeApp();
+  await FirebaseMessaging.instance.subscribeToTopic('high_importance_channel');
+  NotificationServices().showNotification(message);
+}
 
 main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -17,6 +26,7 @@ main() async {
   await Firebase.initializeApp(
     options: DefaultFirebaseOptions.currentPlatform,
   );
+  FirebaseMessaging.onBackgroundMessage(firebaseMessagingBackgroundHandler);
   await GetStorage.init();
 
   runApp(
