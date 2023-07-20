@@ -15,21 +15,21 @@
 	<key>PLIST_VERSION</key>
 	<string>1</string>
 	<key>BUNDLE_ID</key>
-	<string>com.example.firsttest</string>
+	<string>com.example.firsttestp</string>
 	<key>PROJECT_ID</key>
 	<string>thop-c91cc</string>
 	<key>STORAGE_BUCKET</key>
 	<string>thop-c91cc.appspot.com</string>
 	<key>IS_ADS_ENABLED</key>
-	<false></false>
+	<false/>
 	<key>IS_ANALYTICS_ENABLED</key>
-	<false></false>
+	<false/>
 	<key>IS_APPINVITE_ENABLED</key>
-	<true></true>
+	<true/>
 	<key>IS_GCM_ENABLED</key>
-	<true></true>
+	<true/>
 	<key>IS_SIGNIN_ENABLED</key>
-	<true></true>
+	<true/>
 	<key>GOOGLE_APP_ID</key>
 	<string>1:964436961783:ios:636c1ec1d7d4a7512fe6f2</string>
 </dict>

@@ -2,6 +2,7 @@ import 'dart:math';
 
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:firsttest/utils/helpers.dart';
+import 'package:firsttest/views/screens/parent_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:get/get.dart';
@@ -126,10 +127,13 @@ class NotificationServices {
   }
 
   void handleMessage(BuildContext context, RemoteMessage message) {
-    dd(message.toMap().toString() + "abcd");
-    if (message.data['type'] == 'player') {
+    if (message.data['type'].toString() == 'player') {
       Navigator.push(
-          context, MaterialPageRoute(builder: (context) => PlayerScreen()));
+          context,
+          MaterialPageRoute(
+              builder: (context) => ParentScreen(
+                    page: 2,
+                  )));
     }
   }
 }

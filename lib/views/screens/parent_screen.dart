@@ -1,4 +1,5 @@
 import 'package:firsttest/notification/NotificationServices.dart';
+import 'package:firsttest/utils/authentication_service.dart';
 import 'package:firsttest/views/screens/player.dart';
 import 'package:firsttest/views/screens/point.dart';
 import 'package:firsttest/views/screens/score.dart';
@@ -13,6 +14,7 @@ import '../../consts/app_colors.dart';
 import '../../consts/app_sizes.dart';
 import '../../consts/openAddManager.dart';
 import 'home_page.dart';
+import 'log_In.dart';
 
 class ParentScreen extends StatefulWidget {
   const ParentScreen({
@@ -102,7 +104,10 @@ class ParentScreenState extends State<ParentScreen> {
           ),
           actions: [
             InkWell(
-              onTap: () async {},
+              onTap: () async {
+                Authentication.googleSignIn.signOut();
+                Get.to(() => logInScreen());
+              },
               child: Padding(
                 padding: const EdgeInsets.all(8.0),
                 child: ImageIcon(

@@ -21,10 +21,12 @@ class ScoreController extends GetxController {
   RxList<Batter> batterDetailsResponseList = <Batter>[].obs;
   RxList<Bowler> bowlerDetailsResponseList = <Bowler>[].obs;
   RxList<Commentry> comentryResponseList = <Commentry>[].obs;
+  RxList<Live> favouriteList = <Live>[].obs;
   List lastEightBall = [];
   List last = [];
   BannerAd? bannerAd;
   InterstitialAd? interstitialAd;
+  final box = GetStorage();
 
   Rx<MatchDetailsResponse> matchResponseModel = MatchDetailsResponse().obs;
 
@@ -59,6 +61,17 @@ class ScoreController extends GetxController {
         },
       ),
     )..load();
+  }
+
+  getStorageRead() {
+    var result = box.read('fixture') ?? '';
+    dd(result);
+    if (result != null && result != '') {
+      List<dynamic> jsonData = jsonDecode(result);
+      favouriteList.value =
+          jsonData.map((payment) => Live.fromJson(payment)).toList();
+      print("Shanto$favouriteList");
+    }
   }
 
   void loadAdins() {

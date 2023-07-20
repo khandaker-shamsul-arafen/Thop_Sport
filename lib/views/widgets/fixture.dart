@@ -1,10 +1,15 @@
+import 'dart:convert';
+
 import 'package:firsttest/consts/consts.dart';
 import 'package:firsttest/models/team_response.dart';
+import 'package:firsttest/utils/helpers.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:get_storage/get_storage.dart';
 import 'package:shimmer/shimmer.dart';
 
 import '../../consts/app_sizes.dart';
+import '../../controllers/score_controller.dart';
 
 class FixtureWidget extends StatefulWidget {
   final Live element;
@@ -19,6 +24,8 @@ class FixtureWidget extends StatefulWidget {
 }
 
 class _FixtureWidgetState extends State<FixtureWidget> {
+  ScoreController storeController = Get.find();
+
   @override
   Widget build(BuildContext context) {
     var title = (widget.element.title.toString()).split("•");
@@ -121,17 +128,13 @@ class _FixtureWidgetState extends State<FixtureWidget> {
                                 SizedBox(
                                   width: AppSizes.newSize(1.5),
                                 ),
-                                Text(
-                                  team1Name ?? "",
-                                  style: TextStyle(
-                                      fontWeight: FontWeight.w500,
-                                      fontSize: AppSizes.size16),
-                                ),
-                                Text(
-                                  team1Score ?? '',
-                                  style: TextStyle(
-                                      fontWeight: FontWeight.w500,
-                                      fontSize: AppSizes.size16),
+                                Flexible(
+                                  child: Text(
+                                    "$team1Name  $team1Score",
+                                    style: TextStyle(
+                                        fontWeight: FontWeight.w500,
+                                        fontSize: AppSizes.size16),
+                                  ),
                                 ),
                               ],
                             ),
@@ -153,23 +156,23 @@ class _FixtureWidgetState extends State<FixtureWidget> {
                                 SizedBox(
                                   width: AppSizes.newSize(1.2),
                                 ),
-                                Text(
-                                  team2Name ?? '',
-                                  style: TextStyle(
-                                      fontWeight: FontWeight.w500,
-                                      fontSize: AppSizes.size16),
-                                ),
-                                Text(
-                                  team2Score ?? '',
-                                  style: TextStyle(
-                                      fontWeight: FontWeight.w500,
-                                      fontSize: AppSizes.size16),
+                                Flexible(
+                                  child: Text(
+                                    "$team2Name  $team2Score",
+                                    style: TextStyle(
+                                        fontWeight: FontWeight.w500,
+                                        fontSize: AppSizes.size16),
+                                  ),
                                 ),
                               ],
                             ),
                           ]),
                     ),
+                    SizedBox(
+                      width: AppSizes.newSize(1),
+                    ),
                     Expanded(
+                      flex: 1,
                       child: Container(
                         decoration: BoxDecoration(
                             color: Colors.white,
@@ -189,11 +192,43 @@ class _FixtureWidgetState extends State<FixtureWidget> {
                               fontSize: AppSizes.size16),
                         )),
                       ),
-                    )
+                    ),
+                    Obx(() {
+                      bool selected = storeController.favouriteList
+                          .contains(widget.element);
+                      return Container(
+                          width: AppSizes.newSize(6),
+                          child: IconButton(
+                            padding: EdgeInsets.zero,
+                            icon: (selected)
+                                ? const Icon(
+                                    Icons.star,
+                                    color: Colors.amber,
+                                  )
+                                : const Icon(
+                                    Icons.star_border,
+                                    color: Colors.white,
+                                  ),
+                            onPressed: () async {
+                              if (selected) {
+                                storeController.favouriteList
+                                    .remove(widget.element);
+                              } else {
+                                storeController.favouriteList
+                                    .add(widget.element);
+                              }
+                              String jsonString =
+                                  jsonEncode(storeController.favouriteList);
+                              await writeStorage('fixture', jsonString);
+
+                              print(selected);
+                            },
+                          ));
+                    })
                   ],
                 ),
               ),
-              Divider(
+              const Divider(
                 color: Colors.white,
                 height: 2,
               ),

@@ -22,6 +22,7 @@ class _ScoreScreenState extends State<ScoreScreen> {
   void initState() {
     super.initState();
     scoreController.teamScheudle();
+    scoreController.getStorageRead();
   }
 
   void dispose() {

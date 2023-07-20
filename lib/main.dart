@@ -1,3 +1,4 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:firsttest/views/screens/splash_scree.dart';
@@ -11,11 +12,14 @@ import '/consts/consts.dart';
 import '/controllers/setting_controller.dart';
 import 'firebase_options.dart';
 import 'notification/NotificationServices.dart';
+import 'package:google_sign_in/google_sign_in.dart';
 
 @pragma("vm:entry-point")
 Future<void> firebaseMessagingBackgroundHandler(RemoteMessage message) async {
   print(message.notification!.title.toString());
   await Firebase.initializeApp();
+  final FirebaseAuth _auth = FirebaseAuth.instance;
+  GoogleSignIn _googleSignIn = GoogleSignIn();
   await FirebaseMessaging.instance.subscribeToTopic('high_importance_channel');
   NotificationServices().showNotification(message);
 }
@@ -68,7 +72,7 @@ class MyApp extends StatefulWidget {
 }
 
 class MyAppState extends State<MyApp> {
-  SettingController settingController = Get.find();
+  // SettingController settingController = Get.find();
 
   var hasNotification = false;
 
@@ -78,7 +82,7 @@ class MyAppState extends State<MyApp> {
   void initState() {
     super.initState();
 
-    settingController.loadData();
+    //settingController.loadData();
   }
 
   @override

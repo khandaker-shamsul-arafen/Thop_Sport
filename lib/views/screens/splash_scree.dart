@@ -5,6 +5,7 @@ import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
 
 import '../../utils/helpers.dart';
+import 'log_In.dart';
 
 class SplashScreen extends StatefulWidget {
   const SplashScreen({super.key});
